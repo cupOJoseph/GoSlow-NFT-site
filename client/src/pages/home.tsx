@@ -52,15 +52,17 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="container pt-24 pb-16">
-        <div className="max-w-3xl mx-auto">
-          <Card className="overflow-hidden">
+        <div className="flex justify-center">
+          <Card className="overflow-hidden max-w-3xl w-full">
             <CardContent className="p-0">
               {/* NFT Image */}
-              <img
-                src="https://i.imgur.com/bxfUrVK.jpeg"
-                alt="Nerite NFT"
-                className="w-full aspect-video object-cover"
-              />
+              <div className="flex justify-center">
+                <img
+                  src="https://i.imgur.com/bxfUrVK.jpeg"
+                  alt="Nerite NFT"
+                  className="w-full aspect-video object-cover"
+                />
+              </div>
               
               {/* Content */}
               <div className="p-6 space-y-6">

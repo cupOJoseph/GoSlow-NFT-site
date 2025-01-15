@@ -60,7 +60,7 @@ export default function Home() {
                 <img
                   src="https://i.imgur.com/0xQZ7wi.png"
                   alt="Nerite NFT"
-                  className="w-full aspect-video object-cover"
+                  className="w-full h-auto object-contain"
                 />
               </div>
               

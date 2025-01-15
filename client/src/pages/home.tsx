@@ -31,7 +31,7 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b bg-background/80 backdrop-blur-sm">
-        <div className="container flex h-16 items-center justify-between">
+        <div className="container flex h-16 items-center justify-between px-6">
           <h1 className="text-xl font-semibold">Nerite NFT</h1>
           <Button
             variant={account ? "outline" : "default"}

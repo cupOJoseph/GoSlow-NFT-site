@@ -63,7 +63,7 @@ export default function Home() {
                   className="w-full h-auto object-contain"
                 />
               </div>
-              
+
               {/* Content */}
               <div className="p-6 space-y-6">
                 <div className="space-y-2 text-center">

@@ -9,7 +9,8 @@ import { SiDiscord, SiX } from "react-icons/si";
 
 export default function Home() {
   const [mintAmount, setMintAmount] = useState(5);
-  const { account, isConnecting, error, isArbitrumNetwork, connect } = useMetaMask();
+  const [isMinting, setIsMinting] = useState(false);
+  const { account, isConnecting, error, isArbitrumNetwork, connect, mintNFT } = useMetaMask();
   const { toast } = useToast();
 
   const handleMint = async () => {
@@ -31,10 +32,14 @@ export default function Home() {
       return;
     }
 
-    toast({
-      title: "Minting not implemented",
-      description: "This is a placeholder for the minting functionality",
-    });
+    try {
+      setIsMinting(true);
+      await mintNFT(mintAmount);
+    } catch (error) {
+      console.error("Minting error:", error);
+    } finally {
+      setIsMinting(false);
+    }
   };
 
   return (
@@ -134,9 +139,14 @@ export default function Home() {
                     onClick={handleMint}
                     className="w-full max-w-xs bg-primary hover:bg-primary/90"
                     size="lg"
-                    disabled={!account || !isArbitrumNetwork}
+                    disabled={!account || !isArbitrumNetwork || isMinting}
                   >
-                    {!account
+                    {isMinting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Minting...
+                      </>
+                    ) : !account
                       ? "Connect Wallet to Mint"
                       : !isArbitrumNetwork
                         ? "Switch to Arbitrum"

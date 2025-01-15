@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useToast } from "@/hooks/use-toast";
+import { ethers } from "ethers";
+import { getNeriteNFTContract } from "./contracts";
 
 declare global {
   interface Window {
@@ -85,6 +87,54 @@ export function useMetaMask() {
         setError("Failed to switch to Arbitrum network");
         return false;
       }
+    }
+  };
+
+  const mintNFT = async (amount: number) => {
+    if (!window.ethereum || !account) {
+      toast({
+        title: "Error",
+        description: "Please connect your wallet first",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = getNeriteNFTContract(signer);
+
+      // Calculate the total cost (0.005 ETH per NFT)
+      const pricePerNFT = ethers.parseEther("0.005");
+      const totalCost = pricePerNFT.mul(BigInt(amount));
+
+      // Send the transaction
+      const tx = await contract.mint(amount, { value: totalCost });
+
+      toast({
+        title: "Transaction Sent",
+        description: "Please wait for the transaction to be confirmed",
+        variant: "default"
+      });
+
+      // Wait for the transaction to be mined
+      const receipt = await tx.wait();
+
+      toast({
+        title: "Success",
+        description: `Successfully minted ${amount} NFTs!`,
+        variant: "default"
+      });
+
+      return receipt;
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to mint NFTs",
+        variant: "destructive"
+      });
+      throw error;
     }
   };
 
@@ -207,6 +257,7 @@ export function useMetaMask() {
     chainId,
     connect,
     disconnect,
-    isArbitrumNetwork: chainId === ARBITRUM_CHAIN_ID
+    isArbitrumNetwork: chainId === ARBITRUM_CHAIN_ID,
+    mintNFT
   };
 }

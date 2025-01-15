@@ -51,7 +51,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="container pt-24 pb-16">
+      <main className="container px-4 sm:px-6 pt-24 pb-16 mx-auto">
         <div className="flex justify-center">
           <Card className="overflow-hidden max-w-3xl w-full">
             <CardContent className="p-0">

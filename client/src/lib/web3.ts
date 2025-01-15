@@ -107,7 +107,7 @@ export function useMetaMask() {
 
       // Calculate the total cost (0.005 ETH per NFT)
       const pricePerNFT = ethers.parseEther("0.005");
-      const totalCost = pricePerNFT.mul(BigInt(amount));
+      const totalCost = pricePerNFT * BigInt(amount);
 
       // Send the transaction
       const tx = await contract.mint(amount, { value: totalCost });

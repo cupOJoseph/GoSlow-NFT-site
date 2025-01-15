@@ -8,7 +8,7 @@ import { Wallet, Loader2 } from "lucide-react";
 
 export default function Home() {
   const [mintAmount, setMintAmount] = useState(5);
-  const { account, isConnecting, error, connect } = useMetaMask();
+  const { account, isConnecting, error, isArbitrumNetwork, connect } = useMetaMask();
   const { toast } = useToast();
 
   const handleMint = async () => {
@@ -16,6 +16,15 @@ export default function Home() {
       toast({
         title: "Wallet not connected",
         description: "Please connect your wallet to mint NFTs",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!isArbitrumNetwork) {
+      toast({
+        title: "Wrong network",
+        description: "Please switch to Arbitrum network to mint NFTs",
         variant: "destructive",
       });
       return;
@@ -55,6 +64,7 @@ export default function Home() {
               variant={account ? "outline" : "default"}
               onClick={account ? undefined : connect}
               disabled={isConnecting}
+              className={error ? "border-red-500" : ""}
             >
               {isConnecting ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -123,8 +133,13 @@ export default function Home() {
                     onClick={handleMint}
                     className="w-full max-w-xs bg-primary hover:bg-primary/90"
                     size="lg"
+                    disabled={!account || !isArbitrumNetwork}
                   >
-                    Mint
+                    {!account 
+                      ? "Connect Wallet to Mint"
+                      : !isArbitrumNetwork
+                        ? "Switch to Arbitrum"
+                        : "Mint"}
                   </Button>
                 </div>
               </div>

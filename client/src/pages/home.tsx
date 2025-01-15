@@ -80,14 +80,22 @@ export default function Home() {
                 )}
 
                 <div className="flex flex-col items-center gap-4">
-                  <div className="flex items-center gap-4">
-                    <NumberInput
-                      value={mintAmount}
-                      onChange={setMintAmount}
-                      min={1}
-                      max={100}
-                      placeholder="Amount to mint"
-                    />
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="flex items-center gap-4">
+                      <NumberInput
+                        value={mintAmount}
+                        onChange={setMintAmount}
+                        min={1}
+                        max={100}
+                        placeholder="Amount to mint"
+                      />
+                      <span className="text-muted-foreground">
+                        @ 0.005 ETH each
+                      </span>
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      Total: {(mintAmount * 0.005).toFixed(3)} ETH
+                    </div>
                   </div>
 
                   <Button

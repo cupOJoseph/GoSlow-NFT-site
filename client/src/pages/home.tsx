@@ -58,7 +58,7 @@ export default function Home() {
               {/* NFT Image */}
               <div className="flex justify-center">
                 <img
-                  src="https://i.imgur.com/bxfUrVK.jpeg"
+                  src="https://i.imgur.com/0xQZ7wi.png"
                   alt="Nerite NFT"
                   className="w-full aspect-video object-cover"
                 />

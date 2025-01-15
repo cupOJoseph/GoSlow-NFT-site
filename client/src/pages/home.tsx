@@ -5,6 +5,7 @@ import { NumberInput } from "@/components/ui/number-input";
 import { useMetaMask } from "@/lib/web3";
 import { useToast } from "@/hooks/use-toast";
 import { Wallet, Loader2 } from "lucide-react";
+import { SiDiscord, SiX } from "react-icons/si";
 
 export default function Home() {
   const [mintAmount, setMintAmount] = useState(5);
@@ -37,7 +38,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b bg-background/80 backdrop-blur-sm">
         <div className="container flex h-16 items-center justify-between px-6">
@@ -80,7 +81,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="container px-4 sm:px-6 pt-24 pb-16 mx-auto">
+      <main className="container px-4 sm:px-6 pt-24 pb-16 mx-auto flex-1">
         <div className="flex justify-center">
           <Card className="overflow-hidden max-w-3xl w-full">
             <CardContent className="p-0">
@@ -147,6 +148,48 @@ export default function Home() {
           </Card>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t bg-background/80 backdrop-blur-sm py-6">
+        <div className="container px-6 mx-auto">
+          <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-muted-foreground">
+            <a 
+              href="https://x.com/wydstepbrolol/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors"
+            >
+              Artist
+            </a>
+            <a 
+              href="https://nerite.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors"
+            >
+              Nerite Protocol
+            </a>
+            <div className="flex items-center gap-4">
+              <a
+                href="https://x.com/neriteorg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors"
+              >
+                <SiX className="h-4 w-4" />
+              </a>
+              <a
+                href="https://discord.gg/5h3avBYxcn"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors"
+              >
+                <SiDiscord className="h-5 w-5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

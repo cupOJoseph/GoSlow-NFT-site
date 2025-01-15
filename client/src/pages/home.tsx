@@ -88,7 +88,7 @@ export default function Home() {
               {/* NFT Image */}
               <div className="flex justify-center">
                 <img
-                  src="https://i.imgur.com/0xQZ7wi.png"
+                  src="https://bafybeigheskwoyzgxkolyaaxhpwf2jiuyl3cdtykyvy63z3zh4sli4t5xy.ipfs.dweb.link/"
                   alt="Nerite NFT"
                   className="w-full h-auto object-contain"
                 />
@@ -136,7 +136,7 @@ export default function Home() {
                     size="lg"
                     disabled={!account || !isArbitrumNetwork}
                   >
-                    {!account 
+                    {!account
                       ? "Connect Wallet to Mint"
                       : !isArbitrumNetwork
                         ? "Switch to Arbitrum"
@@ -153,7 +153,7 @@ export default function Home() {
       <footer className="border-t bg-background/80 backdrop-blur-sm py-6">
         <div className="container px-6 mx-auto">
           <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-muted-foreground">
-            <a 
+            <a
               href="https://x.com/wydstepbrolol/"
               target="_blank"
               rel="noopener noreferrer"
@@ -161,7 +161,7 @@ export default function Home() {
             >
               Artist
             </a>
-            <a 
+            <a
               href="https://nerite.org"
               target="_blank"
               rel="noopener noreferrer"

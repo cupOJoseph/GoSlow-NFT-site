@@ -50,7 +50,7 @@ export default function Home() {
               className="bg-blue-100 hover:bg-blue-200 text-blue-700"
             >
               <a
-                href="https://opensea.io"
+                href="https://opensea.io/collection/nerite"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"

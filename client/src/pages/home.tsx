@@ -56,15 +56,16 @@ export default function Home() {
               onClick={account ? undefined : connect}
               disabled={isConnecting}
             >
-            {isConnecting ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Wallet className="mr-2 h-4 w-4" />
-            )}
-            {account
-              ? `${account.slice(0, 6)}...${account.slice(-4)}`
-              : "Connect Wallet"}
-          </Button>
+              {isConnecting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Wallet className="mr-2 h-4 w-4" />
+              )}
+              {account
+                ? `${account.slice(0, 6)}...${account.slice(-4)}`
+                : "Connect Wallet"}
+            </Button>
+          </div>
         </div>
       </header>
 

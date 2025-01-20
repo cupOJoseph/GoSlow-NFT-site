@@ -103,10 +103,10 @@ export default function Home() {
               <div className="p-6 space-y-6">
                 <div className="space-y-2 text-center">
                   <h2 className="text-2xl font-semibold">
-                    Nerite - Streamable & Redeemable
+                    Nerite - Go Slow Open Edition NFT 
                   </h2>
                   <p className="text-muted-foreground">
-                    Support funding for security audits for the Nerite Protocol
+                    Support the release of the Nerite protocol. Nerite will issue the first Streamable and Redeemable stablecoin, based on Liquity V2. 100% of NFT minting fees will go towards security audits and security monitoring tools ahead of launch, which is expected in the coming weeks. Go Slow.
                   </p>
                 </div>
 
@@ -152,6 +152,8 @@ export default function Home() {
                         ? "Switch to Arbitrum"
                         : "Mint"}
                   </Button>
+                  <br/>
+                  <p className="text-muted-foreground">Max Supply: Unlimited.</p>
                 </div>
               </div>
             </CardContent>

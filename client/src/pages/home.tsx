@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, MinusIcon, PlusIcon } from "lucide-react";
 import { SiDiscord, SiX } from "react-icons/si";
@@ -10,6 +10,8 @@ import { NERITE_NFT_ABI, NERITE_NFT_ADDRESS } from "@/lib/contracts";
 import { waitForTransactionReceipt } from "viem/actions";
 import { parseEther } from "viem";
 import { arbitrum } from "viem/chains";
+
+const tweetText = "Mint your Go Slow Open Edition NFTs! Proceeds go towards security audits for the Nerite protocol, a friendly fork of Liquity V2 on Arbitrum. Go slow 🐌"
 
 export default function Home() {
   const [mintAmountInput, setMintAmountInput] = useState("5");
@@ -210,13 +212,11 @@ export default function Home() {
                           <PlusIcon className="h-4 w-4" />
                         </Button>
                       </div>
-                      <span className="text-muted-foreground">
+                      <span className="text-muted-foreground text-xs">
                         @ 0.005 ETH each
                       </span>
                     </div>
-                    <div className="text-sm text-muted-foreground">
-                      Total: {(mintAmount * 0.005).toFixed(3)} ETH
-                    </div>
+                    <p className="text-muted-foreground">Max Supply: Unlimited.</p>
                   </div>
 
                   <Button
@@ -242,13 +242,21 @@ export default function Home() {
                       ? "Connect Wallet to Mint"
                       : !isArbitrumNetwork
                         ? "Switch to Arbitrum"
-                        : "Mint"}
+                        : `Mint for ${(mintAmount * 0.005).toFixed(3)} ETH`}
                   </Button>
-                  <br/>
-                  <p className="text-muted-foreground">Max Supply: Unlimited.</p>
                 </div>
               </div>
             </CardContent>
+            <CardFooter className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-2">
+                <p className="text-muted-foreground">Share this page</p>
+                <div className="flex items-center gap-2">
+                  <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent("https://mint.nerite.org")}`} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                    <SiX className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            </CardFooter>
           </Card>
         </div>
       </main>

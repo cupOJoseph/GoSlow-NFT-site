@@ -1,9 +1,8 @@
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { NumberInput } from "@/components/ui/number-input";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, MinusIcon, PlusIcon } from "lucide-react";
 import { SiDiscord, SiX } from "react-icons/si";
 import { ConnectKitButton, useModal } from "connectkit";
 import { useAccount, usePublicClient, useWriteContract } from "wagmi";
@@ -12,7 +11,10 @@ import { waitForTransactionReceipt } from "viem/actions";
 import { parseEther } from "viem";
 import { arbitrum } from "viem/chains";
 
+const tweetText = "Mint your Go Slow Open Edition NFTs! Proceeds go towards security audits for the Nerite protocol, a friendly fork of Liquity V2 on Arbitrum. Go slow 🐌"
+
 export default function Home() {
+  const [mintAmountInput, setMintAmountInput] = useState("5");
   const [mintAmount, setMintAmount] = useState(5);
   const [isMinting, setIsMinting] = useState(false);
   
@@ -96,6 +98,15 @@ export default function Home() {
       return;
     }
 
+    if (mintAmount <= 0) {
+      toast({
+        title: "Error",
+        description: "Please enter an amount of NFTs to mint",
+        variant: "destructive"
+      });
+      return;
+    }
+
     try {
       setIsMinting(true);
       await mint(mintAmount);
@@ -141,44 +152,71 @@ export default function Home() {
       <main className="container px-4 sm:px-6 pt-24 pb-16 mx-auto flex-1">
         <div className="flex justify-center">
           <Card className="overflow-hidden max-w-3xl w-full">
-            <CardContent className="p-0">
+            <CardContent className="p-0 pt-4">
               {/* NFT Image */}
               <div className="flex justify-center">
                 <img
                   src="https://bafybeigheskwoyzgxkolyaaxhpwf2jiuyl3cdtykyvy63z3zh4sli4t5xy.ipfs.dweb.link/"
                   alt="Nerite NFT"
-                  className="w-full h-auto object-contain"
+                  className="w-full max-w-sm h-auto object-contain"
                 />
               </div>
 
               {/* Content */}
               <div className="p-6 space-y-6">
-                <div className="space-y-2 text-center">
+                <div className="flex flex-col items-center space-y-2 text-center">
                   <h2 className="text-2xl font-semibold">
                     Nerite - Go Slow Open Edition NFT 
                   </h2>
                   <p className="text-muted-foreground">
-                    Support the release of the Nerite protocol. Nerite will issue the first Streamable and Redeemable stablecoin, based on Liquity V2. 100% of NFT minting fees will go towards security audits and security monitoring tools ahead of launch, which is expected in the coming weeks. Go Slow.
+                    Support the release of the Nerite protocol.
+                  </p>
+                  <p className="text-muted-foreground text-sm max-w-lg">
+                    Nerite will issue the first Streamable and Redeemable stablecoin, based on Liquity V2. 100% of NFT minting fees will go towards security audits and security monitoring tools ahead of launch, which is expected in the coming weeks.
+                  </p>
+                  <p className="text-muted-foreground text-sm max-w-lg">
+                    Go Slow.
                   </p>
                 </div>
 
                 <div className="flex flex-col items-center gap-4">
                   <div className="flex flex-col items-center gap-4">
-                    <div className="flex items-center gap-4">
-                      <NumberInput
-                        value={mintAmount}
-                        onChange={setMintAmount}
-                        min={1}
-                        max={100}
-                        placeholder="Amount to mint"
-                      />
-                      <span className="text-muted-foreground">
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="flex items-center gap-4">
+                        <Button variant="outline" size="icon" onClick={() => {
+                          const newAmount = Math.max(mintAmount - 1, 1)
+                          setMintAmount(newAmount)
+                          setMintAmountInput(newAmount.toString())
+                        }}>
+                          <MinusIcon className="h-4 w-4" />
+                        </Button>
+                        <input
+                          type="text"
+                          value={mintAmountInput}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/[^0-9]/g, '');
+                            const num = parseInt(value || '0');
+                            if (value === ""||(num >= 1 && num <= 100)) {
+                              setMintAmountInput(value);
+                              setMintAmount(num);
+                            }
+                          }}
+                          placeholder="0"
+                          className="w-20 text-center text-2xl"
+                        />
+                        <Button variant="outline" size="icon" onClick={() => {
+                          const newAmount = Math.min(mintAmount + 1, 100)
+                          setMintAmount(newAmount)
+                          setMintAmountInput(newAmount.toString())
+                        }}>
+                          <PlusIcon className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <span className="text-muted-foreground text-xs">
                         @ 0.005 ETH each
                       </span>
                     </div>
-                    <div className="text-sm text-muted-foreground">
-                      Total: {(mintAmount * 0.005).toFixed(3)} ETH
-                    </div>
+                    <p className="text-muted-foreground">Max Supply: Unlimited.</p>
                   </div>
 
                   <Button
@@ -204,13 +242,21 @@ export default function Home() {
                       ? "Connect Wallet to Mint"
                       : !isArbitrumNetwork
                         ? "Switch to Arbitrum"
-                        : "Mint"}
+                        : `Mint for ${(mintAmount * 0.005).toFixed(3)} ETH`}
                   </Button>
-                  <br/>
-                  <p className="text-muted-foreground">Max Supply: Unlimited.</p>
                 </div>
               </div>
             </CardContent>
+            <CardFooter className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-2">
+                <p className="text-muted-foreground">Share this page</p>
+                <div className="flex items-center gap-2">
+                  <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent("https://mint.nerite.org")}`} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                    <SiX className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            </CardFooter>
           </Card>
         </div>
       </main>

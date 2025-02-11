@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ethers } from "ethers";
 import { getNeriteNFTContract } from "./contracts";
@@ -9,17 +9,17 @@ declare global {
   }
 }
 
-const ARBITRUM_CHAIN_ID = '0xa4b1'; // Arbitrum One Mainnet
+const ARBITRUM_CHAIN_ID = "0xa4b1"; // Arbitrum One Mainnet
 const ARBITRUM_NETWORK = {
   chainId: ARBITRUM_CHAIN_ID,
-  chainName: 'Arbitrum One',
+  chainName: "Arbitrum One",
   nativeCurrency: {
-    name: 'ETH',
-    symbol: 'ETH',
-    decimals: 18
+    name: "ETH",
+    symbol: "ETH",
+    decimals: 18,
   },
-  rpcUrls: ['https://arb1.arbitrum.io/rpc'],
-  blockExplorerUrls: ['https://arbiscan.io/']
+  rpcUrls: ["https://arb1.arbitrum.io/rpc"],
+  blockExplorerUrls: ["https://arbiscan.io/"],
 };
 
 export function useMetaMask() {
@@ -33,7 +33,7 @@ export function useMetaMask() {
     if (!window.ethereum) return false;
 
     const currentChainId = await window.ethereum.request({
-      method: 'eth_chainId'
+      method: "eth_chainId",
     });
 
     setChainId(currentChainId);
@@ -46,13 +46,13 @@ export function useMetaMask() {
     try {
       // Try switching to Arbitrum
       await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
+        method: "wallet_switchEthereumChain",
         params: [{ chainId: ARBITRUM_CHAIN_ID }],
       });
       toast({
         title: "Network switched",
         description: "Successfully connected to Arbitrum network",
-        variant: "default"
+        variant: "default",
       });
       return true;
     } catch (switchError: any) {
@@ -60,20 +60,20 @@ export function useMetaMask() {
       if (switchError.code === 4902) {
         try {
           await window.ethereum.request({
-            method: 'wallet_addEthereumChain',
+            method: "wallet_addEthereumChain",
             params: [ARBITRUM_NETWORK],
           });
           toast({
             title: "Network added",
             description: "Successfully added and connected to Arbitrum network",
-            variant: "default"
+            variant: "default",
           });
           return true;
         } catch (addError) {
           toast({
             title: "Network error",
             description: "Failed to add Arbitrum network to MetaMask",
-            variant: "destructive"
+            variant: "destructive",
           });
           setError("Failed to add Arbitrum network to MetaMask");
           return false;
@@ -82,7 +82,7 @@ export function useMetaMask() {
         toast({
           title: "Network error",
           description: "Failed to switch to Arbitrum network",
-          variant: "destructive"
+          variant: "destructive",
         });
         setError("Failed to switch to Arbitrum network");
         return false;
@@ -95,7 +95,7 @@ export function useMetaMask() {
       toast({
         title: "Error",
         description: "Please connect your wallet first",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -105,8 +105,8 @@ export function useMetaMask() {
       const signer = await provider.getSigner();
       const contract = getNeriteNFTContract(signer);
 
-      // Calculate the total cost (0.005 ETH per NFT)
-      const pricePerNFT = ethers.parseEther("0.005");
+      // Calculate the total cost (0.05 ETH per NFT)
+      const pricePerNFT = ethers.parseEther("0.05");
       const totalCost = pricePerNFT * BigInt(amount);
 
       // Send the transaction
@@ -115,7 +115,7 @@ export function useMetaMask() {
       toast({
         title: "Transaction Sent",
         description: "Please wait for the transaction to be confirmed",
-        variant: "default"
+        variant: "default",
       });
 
       // Wait for the transaction to be mined
@@ -124,7 +124,7 @@ export function useMetaMask() {
       toast({
         title: "Success",
         description: `Successfully minted ${amount} NFTs!`,
-        variant: "default"
+        variant: "default",
       });
 
       return receipt;
@@ -132,7 +132,7 @@ export function useMetaMask() {
       toast({
         title: "Error",
         description: error.message || "Failed to mint NFTs",
-        variant: "destructive"
+        variant: "destructive",
       });
       throw error;
     }
@@ -143,7 +143,7 @@ export function useMetaMask() {
       toast({
         title: "MetaMask not found",
         description: "Please install MetaMask to continue",
-        variant: "destructive"
+        variant: "destructive",
       });
       setError("Please install MetaMask to continue");
       return;
@@ -154,7 +154,7 @@ export function useMetaMask() {
       setError(null);
 
       const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts"
+        method: "eth_requestAccounts",
       });
 
       // Check if we're on Arbitrum network
@@ -163,7 +163,7 @@ export function useMetaMask() {
         toast({
           title: "Wrong network",
           description: "Please switch to Arbitrum network",
-          variant: "destructive"
+          variant: "destructive",
         });
         const switched = await switchToArbitrum();
         if (!switched) {
@@ -176,13 +176,13 @@ export function useMetaMask() {
       toast({
         title: "Wallet connected",
         description: `Connected to ${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`,
-        variant: "default"
+        variant: "default",
       });
     } catch (err: any) {
       toast({
         title: "Connection error",
         description: err.message || "Failed to connect wallet",
-        variant: "destructive"
+        variant: "destructive",
       });
       setError(err.message || "Failed to connect wallet");
     } finally {
@@ -197,7 +197,7 @@ export function useMetaMask() {
     toast({
       title: "Wallet disconnected",
       description: "Your wallet has been disconnected",
-      variant: "default"
+      variant: "default",
     });
   };
 
@@ -215,7 +215,7 @@ export function useMetaMask() {
           toast({
             title: "Account changed",
             description: `Switched to ${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`,
-            variant: "default"
+            variant: "default",
           });
         }
       });
@@ -227,7 +227,7 @@ export function useMetaMask() {
           toast({
             title: "Wrong network",
             description: "Please switch to Arbitrum network to continue",
-            variant: "destructive"
+            variant: "destructive",
           });
           setError("Please switch to Arbitrum network to continue");
           disconnect();
@@ -236,7 +236,7 @@ export function useMetaMask() {
           toast({
             title: "Network changed",
             description: "Successfully connected to Arbitrum network",
-            variant: "default"
+            variant: "default",
           });
         }
       });
@@ -258,6 +258,6 @@ export function useMetaMask() {
     connect,
     disconnect,
     isArbitrumNetwork: chainId === ARBITRUM_CHAIN_ID,
-    mintNFT
+    mintNFT,
   };
 }
